@@ -1,0 +1,39 @@
+version: '3.1'
+
+services:
+
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: drupal
+      MYSQL_USER: drupal
+      MYSQL_PASSWORD: pass
+    volumes:
+      - ./docker/mysql/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+
+#  redis:
+#    image: redis:latest
+
+  php:
+    build: ./docker/php
+    environment:
+      XDEBUG_CONFIG: "remote_host=172.18.0.1"
+      PHP_IDE_CONFIG: "serverName=docker-drupal"
+    volumes:
+      - ./:/var/www
+      - ./docker/php/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
+      - ./docker/php/log:/var/log
+    links:
+      - mysql
+#      - redis
+
+  nginx:
+    build: ./docker/nginx
+    ports:
+      - 8080:80
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - php

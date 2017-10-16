@@ -1,0 +1,10 @@
+/.bash_history
+/.bashrc
+/.composer
+/.drush
+/bin/*
+!/bin/.gitkeep
+/docker/nginx/log/*
+!/docker/nginx/log/.gitkeep
+/docker/php/log/*
+!/docker/php/log/.gitkeep
