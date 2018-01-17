@@ -23,6 +23,7 @@ RUN docker-php-ext-enable xdebug \
 #    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
 
 RUN apt-get update
+RUN apt-get dist-upgrade
 RUN apt-get install -y git zip unzip
 
 RUN curl -SLO "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz" \
@@ -46,14 +47,16 @@ RUN docker-php-ext-install pdo pdo_mysql bcmath
 RUN apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng12-dev
 RUN docker-php-ext-install gd
 
-RUN curl -S https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN chmod a+x /usr/local/bin/composer
-RUN curl -LS https://symfony.com/installer -o /usr/local/bin/symfony
-RUN chmod a+x /usr/local/bin/symfony
-RUN curl -LS https://github.com/drush-ops/drush/releases/download/8.1.15/drush.phar -o /usr/local/bin/drush
-RUN chmod a+x /usr/local/bin/drush
+#RUN curl -S https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+#RUN chmod a+x /usr/local/bin/composer
+#RUN curl -LS https://symfony.com/installer -o /usr/local/bin/symfony
+#RUN chmod a+x /usr/local/bin/symfony
+#RUN curl -LS https://github.com/drush-ops/drush/releases/download/8.1.15/drush.phar -o /usr/local/bin/drush
+#RUN chmod a+x /usr/local/bin/drush
 
+RUN apt-get update
 RUN apt-get install -y mysql-client
+RUN apt-get install -y python
 
 #RUN php -r "readfile('https://s3.amazonaws.com/files.drush.org/drush.phar');" > drush \
 #    && chmod +x drush \
